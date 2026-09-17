@@ -1,6 +1,8 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+alert("HOME.JS BERJALAN");
+
 let coins = 100;
 let day = 1;
 let weather = "Sunny";
