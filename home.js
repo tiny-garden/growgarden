@@ -3200,6 +3200,7 @@ function gameLoop() {
 
     // Background
     ctx.fillStyle = "#70b85a";
+
     ctx.fillRect(
         0,
         0,
@@ -3220,15 +3221,14 @@ function gameLoop() {
 
     ctx.fill();
 
-    // Tulisan TEST
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "30px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(
-        "GARDEN TEST",
-        450,
-        300
-    );
+    // Gambar tanaman yang sudah ditanam
+    plots.forEach(plot => {
+
+        if (!plot.crop) return;
+
+        drawCrop(plot);
+
+    });
 
     requestAnimationFrame(gameLoop);
 }
