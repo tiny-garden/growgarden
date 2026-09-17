@@ -2659,6 +2659,15 @@ canvas.addEventListener(
     "click",
     event => {
 
+        alert(
+            "CLICK!\nPlots: " +
+            plots.length +
+            "\nTool: " +
+            selectedTool +
+            "\nSeed: " +
+            selectedSeed
+        );
+
         const rect =
             canvas.getBoundingClientRect();
 
