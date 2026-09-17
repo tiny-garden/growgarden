@@ -3189,20 +3189,35 @@ function updatePets() {
 
 function gameLoop() {
 
-    applyWeatherMutations();
-    drawBackground();
-
-    drawPlots();
-
-    drawMantisAreas();
-
-    drawPets();
-
-    updatePets();
-
-    requestAnimationFrame(
-        gameLoop
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
     );
+
+    ctx.fillStyle = "#70b85a";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.fillStyle = "#8b5a35";
+
+    roundRect(
+        105,
+        95,
+        690,
+        405,
+        22
+    );
+
+    ctx.fill();
+
+    requestAnimationFrame(gameLoop);
 }
 
 loadGame();
