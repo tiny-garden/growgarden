@@ -2855,7 +2855,7 @@ function roundRect(
 
 function drawPlots() {
 
-    updateSprinklerEffects();
+    // updateSprinklerEffects();
 
     // Satu petak tanah besar, tanpa kotak-kotak plot yang terlihat.
     ctx.fillStyle = "#8b5a35";
