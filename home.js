@@ -1368,6 +1368,8 @@ function interactWithPlot(plot) {
 
     if (selectedTool === "plant") {
 
+        alert("INTERACT PLOT: " + selectedSeed);
+
         if (plot.crop) {
             if (isCropReady(plot)) {
                 harvestPlot(plot);
