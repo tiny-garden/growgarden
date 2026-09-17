@@ -393,10 +393,6 @@ const eggs = {
 const plots = [];
 const placedSprinklers = [];
 
-// Satu area garden besar dengan invisible planting slots.
-// Slot tidak disusun dalam baris yang terlihat. Setiap slot mendapat
-// posisi pseudo-random yang tetap konsisten setelah reload agar tanaman
-// tidak berpindah-pindah secara acak setiap kali game dibuka.
 const gardenArea = {
     x: 105,
     y: 95,
@@ -408,29 +404,57 @@ const totalPlantSlots = 45;
 const minPlantDistance = 48;
 
 function seededRandom(seed) {
-    const value = Math.sin(seed * 12.9898) * 43758.5453;
+    const value =
+        Math.sin(seed * 12.9898) * 43758.5453;
+
     return value - Math.floor(value);
 }
 
 function createRandomGardenPositions(count) {
+
     const positions = [];
-    const minX = gardenArea.x + 28;
-    const maxX = gardenArea.x + gardenArea.width - 28;
-    const minY = gardenArea.y + 28;
-    const maxY = gardenArea.y + gardenArea.height - 28;
+
+    const minX =
+        gardenArea.x + 28;
+
+    const maxX =
+        gardenArea.x +
+        gardenArea.width -
+        28;
+
+    const minY =
+        gardenArea.y + 28;
+
+    const maxY =
+        gardenArea.y +
+        gardenArea.height -
+        28;
 
     for (let index = 0; index < count; index++) {
+
         let position = null;
 
-        // Cari posisi yang tidak terlalu dekat dengan tanaman lain.
         for (let attempt = 0; attempt < 200; attempt++) {
-            const seed = (index + 1) * 1000 + attempt + 17;
-            const x = minX + seededRandom(seed) * (maxX - minX);
-            const y = minY + seededRandom(seed + 73) * (maxY - minY);
+
+            const seed =
+                (index + 1) * 1000 +
+                attempt +
+                17;
+
+            const x =
+                minX +
+                seededRandom(seed) *
+                (maxX - minX);
+
+            const y =
+                minY +
+                seededRandom(seed + 73) *
+                (maxY - minY);
 
             let valid = true;
 
             for (const other of positions) {
+
                 if (
                     Math.hypot(
                         x - other.x,
@@ -440,32 +464,50 @@ function createRandomGardenPositions(count) {
                     valid = false;
                     break;
                 }
+
             }
 
             if (valid) {
-                position = { x, y };
+
+                position = {
+                    x,
+                    y
+                };
+
                 break;
             }
         }
 
-        // Fallback yang tetap berada di dalam garden jika percobaan penuh.
         if (!position) {
-            const angle = index * 2.399963;
-            const radius = 35 + (index % 7) * 25;
+
+            const angle =
+                index * 2.399963;
+
+            const radius =
+                35 +
+                (index % 7) * 25;
 
             position = {
+
                 x: Math.max(
                     minX,
                     Math.min(
                         maxX,
-                        gardenArea.x + gardenArea.width / 2 + Math.cos(angle) * radius
+                        gardenArea.x +
+                        gardenArea.width / 2 +
+                        Math.cos(angle) *
+                        radius
                     )
                 ),
+
                 y: Math.max(
                     minY,
                     Math.min(
                         maxY,
-                        gardenArea.y + gardenArea.height / 2 + Math.sin(angle) * radius
+                        gardenArea.y +
+                        gardenArea.height / 2 +
+                        Math.sin(angle) *
+                        radius
                     )
                 )
             };
@@ -478,25 +520,48 @@ function createRandomGardenPositions(count) {
 }
 
 const randomGardenPositions =
-    createRandomGardenPositions(totalPlantSlots);
+    createRandomGardenPositions(
+        totalPlantSlots
+    );
 
-for (let i = 0; i < totalPlantSlots; i++) {
-    const position = randomGardenPositions[i];
+for (
+    let i = 0;
+    i < totalPlantSlots;
+    i++
+) {
+
+    const position =
+        randomGardenPositions[i];
 
     plots.push({
+
         x: position.x - 10,
+
         y: position.y - 10,
+
         width: 20,
+
         height: 20,
+
         crop: null,
+
         plantedAt: null,
+
         watered: false,
+
         mutation: [],
+
         mutations: [],
+
         weatherMutationEvent: -1,
+
         bunnyBonus: 1,
-        cellRow: Math.floor(i / 9),
-        cellColumn: i % 9
+
+        cellRow:
+            Math.floor(i / 9),
+
+        cellColumn:
+            i % 9
     });
 }
 
@@ -3198,7 +3263,6 @@ function gameLoop() {
         canvas.height
     );
 
-    // Background
     ctx.fillStyle = "#70b85a";
 
     ctx.fillRect(
@@ -3208,7 +3272,6 @@ function gameLoop() {
         canvas.height
     );
 
-    // Garden
     ctx.fillStyle = "#8b5a35";
 
     roundRect(
@@ -3221,17 +3284,18 @@ function gameLoop() {
 
     ctx.fill();
 
-    // Gambar tanaman yang sudah ditanam
     plots.forEach(plot => {
 
-        if (!plot.crop) return;
-
-        drawCrop(plot);
+        if (plot.crop) {
+            drawCrop(plot);
+        }
 
     });
 
     requestAnimationFrame(gameLoop);
 }
+
+gameLoop();
 
 loadGame();
 
