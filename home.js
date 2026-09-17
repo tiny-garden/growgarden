@@ -1369,6 +1369,7 @@ function interactWithPlot(plot) {
     if (selectedTool === "plant") {
 
         alert("INTERACT PLOT: " + selectedSeed);
+        alert("SEBELUM TANAM\nSeed: " + seeds[selectedSeed]);
 
         if (plot.crop) {
             if (isCropReady(plot)) {
@@ -1391,6 +1392,14 @@ function interactWithPlot(plot) {
         seeds[selectedSeed]--;
 
         plot.crop = selectedSeed;
+
+        alert(
+            "BERHASIL SET CROP\n" +
+            "Crop: " + plot.crop +
+            "\nX: " + plot.x +
+            "\nY: " + plot.y
+        );
+        
         plot.plantedAt = Date.now();
         plot.watered = false;
         plot.mutations = [];
