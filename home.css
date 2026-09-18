@@ -1,0 +1,1450 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(circle at top, #dff7d5, #8bcf76);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #263b26;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.game-wrapper {
+    width: min(100%, 1200px);
+    padding: 20px;
+}
+
+.topbar {
+    min-height: 70px;
+    background: #ffffff;
+    border-radius: 18px 18px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    position: relative;
+    z-index: 10;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: #3b7638;
+    white-space: nowrap;
+}
+
+.stats {
+    display: flex;
+    gap: 8px;
+}
+
+.stat {
+    background: #edf8e9;
+    border: 2px solid #d2eaca;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.header-button {
+    border: 2px solid #d2eaca;
+    background: #edf8e9;
+    color: #3b7638;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-weight: 800;
+    box-shadow: 0 3px 0 #b8d8ae;
+    transition: 0.15s;
+}
+
+.header-button:hover {
+    transform: translateY(-2px);
+}
+
+.game-container {
+    position: relative;
+    background: #75b95e;
+    border-left: 5px solid #ffffff;
+    border-right: 5px solid #ffffff;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    background: #70b85a;
+}
+
+.notification {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 50, 30, 0.9);
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    z-index: 30;
+    white-space: nowrap;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+.bottom-ui {
+    background: #ffffff;
+    border-radius: 0 0 18px 18px;
+    padding: 14px;
+    display: flex;
+    gap: 16px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    position: relative;
+    z-index: 5;
+    align-items: flex-end;
+}
+
+.inventory-section {
+    flex: 1;
+    min-width: 190px;
+}
+
+.section-title {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 7px;
+}
+
+.inventory-items {
+    display: flex;
+    gap: 7px;
+}
+
+.item {
+    position: relative;
+    width: 62px;
+    height: 62px;
+    background: #f0f7ec;
+    border: 2px solid #d6e7ce;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.item span {
+    font-size: 24px;
+}
+
+.item small {
+    font-size: 8px;
+}
+
+.item b {
+    position: absolute;
+    right: 4px;
+    bottom: 3px;
+    background: #3f713a;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 2px 5px;
+    font-size: 10px;
+}
+
+.seed-item {
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.seed-item:hover {
+    transform: translateY(-3px);
+}
+
+.selected-seed {
+    background: #d9f2cf;
+    border-color: #5aa651;
+    box-shadow: 0 3px 0 #3e7939;
+}
+
+.fruit-inventory {
+    display: flex;
+    gap: 6px;
+    min-height: 62px;
+    max-width: 270px;
+    overflow-x: auto;
+}
+
+.fruit-card {
+    min-width: 58px;
+    height: 62px;
+    background: #f0f7ec;
+    border: 2px solid #d6e7ce;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+}
+
+.fruit-card span {
+    font-size: 22px;
+}
+
+.fruit-card b {
+    font-size: 10px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.tool {
+    width: 65px;
+    height: 62px;
+    border: 2px solid #d5e4ce;
+    background: #f7faf5;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+    transition: 0.15s;
+}
+
+.tool span {
+    font-size: 9px;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+.tool:hover {
+    transform: translateY(-3px);
+}
+
+.tool.active {
+    background: #d9f2cf;
+    border-color: #5aa651;
+    box-shadow: 0 3px 0 #3e7939;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 40, 20, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal-card,
+.hatch-card {
+    position: relative;
+    width: min(94%, 720px);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-card h2 {
+    color: #397234;
+    margin-bottom: 6px;
+}
+
+.modal-card > p {
+    color: #777777;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: 0;
+    background: #edf8e9;
+    border-radius: 10px;
+    padding: 7px;
+    font-size: 16px;
+}
+
+.tabs,
+.pet-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.tab {
+    border: 2px solid #d6e7ce;
+    background: #f0f7ec;
+    padding: 9px 15px;
+    border-radius: 10px;
+    font-weight: 800;
+}
+
+.tab.active {
+    background: #d9f2cf;
+    border-color: #5aa651;
+}
+
+.shop-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shop-item {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    background: #f4f9f1;
+    border: 2px solid #d6e7ce;
+    border-radius: 14px;
+    padding: 10px;
+}
+
+.shop-item > span {
+    font-size: 32px;
+    text-align: center;
+}
+
+.shop-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.shop-item small {
+    font-size: 10px;
+    color: #666666;
+}
+
+.shop-item button,
+.pet-card button,
+.egg-card button {
+    border: 0;
+    background: #58a851;
+    color: #ffffff;
+    padding: 8px 11px;
+    border-radius: 9px;
+    font-weight: 800;
+    transition: 0.15s;
+}
+
+.shop-item button:hover,
+.pet-card button:hover,
+.egg-card button:hover {
+    background: #397b35;
+    transform: translateY(-2px);
+}
+
+.shop-item button:disabled,
+.egg-card button:disabled {
+    background: #aaaaaa;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.shop-footer,
+.modal-footer {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 2px solid #e5eee1;
+    font-weight: 800;
+}
+
+.pet-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.pet-card {
+    background: #f4f9f1;
+    border: 2px solid #d6e7ce;
+    border-radius: 14px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 8px;
+    align-items: center;
+}
+
+.pet-card.equipped {
+    background: #d9f2cf;
+    border-color: #5aa651;
+}
+
+.pet-card .icon {
+    font-size: 34px;
+}
+
+.pet-card .info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.pet-card .info b {
+    color: #397234;
+}
+
+.pet-card .info small {
+    font-size: 9px;
+    color: #666666;
+}
+
+.pet-card .skill {
+    grid-column: 1 / -1;
+    font-size: 10px;
+    color: #4d604a;
+    line-height: 1.35;
+}
+
+.active-slots {
+    margin-top: 8px;
+}
+
+.active-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.active-slot {
+    min-height: 72px;
+    border: 2px dashed #b9cfb0;
+    background: #f8fbf6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.active-slot.filled {
+    border-style: solid;
+    background: #d9f2cf;
+}
+
+.active-slot span {
+    font-size: 28px;
+    margin-right: 5px;
+}
+
+.egg-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.egg-card {
+    background: #f4f9f1;
+    border: 2px solid #d6e7ce;
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+}
+
+.egg-card .egg-icon {
+    font-size: 42px;
+}
+
+.egg-card b {
+    display: block;
+    margin: 5px 0;
+}
+
+.egg-card small {
+    display: block;
+    font-size: 9px;
+    color: #666666;
+    margin-bottom: 8px;
+}
+
+.hatch-card {
+    text-align: center;
+    width: min(90%, 400px);
+}
+
+.hatch-card #hatchEggIcon {
+    font-size: 80px;
+    margin: 10px;
+}
+
+.hatch-card h2 {
+    color: #397234;
+}
+
+.hatch-result {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.hatch-result .big {
+    font-size: 70px;
+}
+
+.hatch-result b {
+    font-size: 22px;
+    color: #397234;
+}
+
+.hatch-result small {
+    font-size: 11px;
+    color: #666666;
+    max-width: 280px;
+    line-height: 1.4;
+}
+
+.secondary {
+    border: 0;
+    background: #397234;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 800;
+    margin-top: 15px;
+}
+
+.harvest-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.harvest-item {
+    background: #f4f9f1;
+    border: 2px solid #d6e7ce;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+}
+
+.harvest-icon {
+    font-size: 38px;
+}
+
+.harvest-name {
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.harvest-weight {
+    font-size: 10px;
+    color: #666666;
+    margin-top: 4px;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 25px;
+    color: #777777;
+    background: #f4f9f1;
+    border-radius: 12px;
+    border: 2px dashed #d6e7ce;
+}
+
+@media (max-width: 850px) {
+
+    .bottom-ui {
+        flex-wrap: wrap;
+    }
+
+    .inventory-section {
+        min-width: 45%;
+    }
+
+    .controls {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pet-list {
+        grid-template-columns: 1fr;
+    }
+
+    .egg-list {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar {
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .stats {
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 500px) {
+
+    body {
+        align-items: flex-start;
+    }
+
+    .game-wrapper {
+        padding: 5px;
+    }
+
+    .bottom-ui {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .inventory-items {
+        justify-content: center;
+    }
+
+    .fruit-inventory {
+        max-width: none;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+    }
+
+    .tool {
+        width: 58px;
+        height: 58px;
+    }
+
+    .modal-card {
+        padding: 20px;
+    }
+
+    .harvest-items {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .topbar {
+        gap: 6px;
+    }
+
+    .header-button {
+        font-size: 11px;
+        padding: 7px 9px;
+    }
+
+    .stats {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Seed selector UI */
+.seed-section {
+    position: relative;
+    min-width: 190px;
+}
+
+.seed-selector {
+    position: relative;
+    width: 190px;
+}
+
+.selected-seed-button {
+    width: 100%;
+    min-height: 62px;
+    border: 2px solid #5aa651;
+    background: #d9f2cf;
+    color: #263b26;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 #3e7939;
+    display: grid;
+    grid-template-columns: 42px 1fr 20px;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 10px;
+    text-align: left;
+}
+
+.selected-seed-icon {
+    font-size: 30px;
+    text-align: center;
+}
+
+.selected-seed-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.selected-seed-info b {
+    font-size: 12px;
+}
+
+.selected-seed-info small {
+    font-size: 10px;
+    color: #4d604a;
+}
+
+.seed-arrow {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.seed-selector-popup {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 8px);
+    width: 280px;
+    max-height: 310px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 2px solid #d6e7ce;
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+    z-index: 80;
+}
+
+.seed-selector-item {
+    width: 100%;
+    min-height: 48px;
+    border: 2px solid transparent;
+    background: #f4f9f1;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 35px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.seed-selector-item:last-child {
+    margin-bottom: 0;
+}
+
+.seed-selector-item:hover:not(:disabled),
+.seed-selector-item.selected {
+    background: #d9f2cf;
+    border-color: #5aa651;
+}
+
+.seed-selector-item:disabled {
+    opacity: .48;
+    cursor: not-allowed;
+}
+
+.seed-selector-icon {
+    font-size: 25px;
+    text-align: center;
+}
+
+.seed-selector-name {
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.seed-selector-item b {
+    font-size: 10px;
+    background: #3f713a;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 3px 6px;
+}
+
+@media (max-width: 500px) {
+    .seed-section {
+        min-width: 100%;
+    }
+
+    .seed-selector {
+        width: 100%;
+    }
+
+    .seed-selector-popup {
+        width: 100%;
+        max-height: 280px;
+    }
+}
+
+
+
+
+/* FLEXIBLE CANVAS - isolated from Seed/Gear/Pet/Harvest UI */
+html, body {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.game-wrapper {
+    width: min(100%, 1200px);
+    max-width: 1200px;
+    min-width: 0;
+}
+
+.game-container {
+    width: 100%;
+    min-width: 0;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    aspect-ratio: 900 / 550;
+    margin: 0 auto;
+    touch-action: none;
+}
+
+@media (max-width: 500px) {
+    .game-wrapper {
+        width: 100%;
+        max-width: 100%;
+        padding: 5px;
+    }
+
+    .game-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #gameCanvas {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+/* =========================================================
+   FIXED INVENTORY / HARVEST / REDEEM UI
+   ========================================================= */
+
+/* Seed + Gear inventory selectors */
+.selector-wrapper {
+    position: relative;
+    width: 190px;
+    min-width: 190px;
+}
+
+.selector-button {
+    width: 100%;
+    min-height: 62px;
+    border: 2px solid #d5e4ce;
+    background: #f7faf5;
+    color: #263b26;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 #c7dac0;
+    display: grid;
+    grid-template-columns: 40px 1fr 20px;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 9px;
+    text-align: left;
+    font-weight: 700;
+    transition: .15s;
+}
+
+.selector-button:hover {
+    transform: translateY(-2px);
+}
+
+.selector-button.active,
+.selector-button.selected {
+    background: #d9f2cf;
+    border-color: #5aa651;
+    box-shadow: 0 3px 0 #3e7939;
+}
+
+.selector-icon {
+    width: 40px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.selector-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.selector-info b {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selector-info small {
+    font-size: 9px;
+    color: #4d604a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.selector-arrow {
+    font-size: 15px;
+    font-weight: 900;
+    text-align: center;
+}
+
+.selector-popup {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 8px);
+    width: 280px;
+    max-height: 310px;
+    overflow-y: auto;
+    padding: 8px;
+    background: #ffffff;
+    border: 2px solid #d6e7ce;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.20);
+    z-index: 90;
+}
+
+.selector-item {
+    width: 100%;
+    min-height: 52px;
+    border: 2px solid transparent;
+    background: #f4f9f1;
+    color: #263b26;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 38px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.selector-item:last-child {
+    margin-bottom: 0;
+}
+
+.selector-item:hover:not(:disabled),
+.selector-item.selected {
+    background: #d9f2cf;
+    border-color: #5aa651;
+}
+
+.selector-item:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.selector-item .icon {
+    font-size: 25px;
+    text-align: center;
+}
+
+.selector-item .name {
+    min-width: 0;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.selector-item .count {
+    background: #3f713a;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* Keep the two inventory selectors usable on desktop */
+.bottom-ui .selector-wrapper {
+    flex-shrink: 0;
+}
+
+/* Harvest Bag action buttons */
+.harvest-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0 16px;
+}
+
+.sell-button,
+.sell-all-button {
+    border: 0;
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 800;
+    transition: .15s;
+    box-shadow: 0 3px 0 rgba(0,0,0,.15);
+}
+
+.sell-button {
+    background: #58a851;
+}
+
+.sell-all-button {
+    background: #397b35;
+}
+
+.sell-button:hover,
+.sell-all-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(.96);
+}
+
+.sell-button:active,
+.sell-all-button:active {
+    transform: translateY(1px);
+}
+
+.sell-button:disabled,
+.sell-all-button:disabled {
+    background: #aaaaaa;
+    color: #eeeeee;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Harvest cards + selection state */
+.harvest-item {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: .15s;
+}
+
+.harvest-item:hover {
+    transform: translateY(-2px);
+}
+
+.harvest-item.selected {
+    background: #d9f2cf;
+    border-color: #5aa651;
+    box-shadow: 0 3px 0 #3e7939;
+}
+
+.harvest-item input[type="checkbox"] {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: #58a851;
+}
+
+/* Redeem Code */
+.redeem-card {
+    width: min(94%, 430px);
+}
+
+.redeem-input-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.redeem-input-row input {
+    flex: 1;
+    min-width: 0;
+    height: 44px;
+    padding: 0 12px;
+    border: 2px solid #d6e7ce;
+    background: #f7faf5;
+    color: #263b26;
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+.redeem-input-row input:focus {
+    border-color: #5aa651;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(90,166,81,.12);
+}
+
+.redeem-input-row input::placeholder {
+    color: #999999;
+}
+
+.redeem-input-row .sell-button {
+    flex: 0 0 auto;
+    min-width: 88px;
+    height: 44px;
+    margin: 0;
+}
+
+/* Mobile: selectors stack cleanly without breaking the rest of the UI */
+@media (max-width: 850px) {
+    .selector-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .selector-popup {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 500px) {
+    .selector-wrapper {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .selector-button {
+        min-height: 58px;
+    }
+
+    .selector-popup {
+        left: 0;
+        width: 100%;
+        max-width: none;
+        max-height: 260px;
+    }
+
+    .harvest-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .sell-button,
+    .sell-all-button {
+        width: 100%;
+        padding: 10px 8px;
+        font-size: 11px;
+    }
+
+    .redeem-input-row {
+        flex-direction: column;
+    }
+
+    .redeem-input-row input,
+    .redeem-input-row .sell-button {
+        width: 100%;
+        flex: none;
+    }
+}
+
+
+/* ==========================================================
+   GEAR INVENTORY — FINAL ISOLATED FIX
+   ========================================================== */
+
+#gearSelector {
+    position: relative !important;
+    display: block !important;
+    width: 190px !important;
+    min-width: 190px !important;
+    max-width: 190px !important;
+    flex: 0 0 190px !important;
+    z-index: 200 !important;
+    overflow: visible !important;
+}
+
+#selectedGearButton {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    display: grid !important;
+    width: 190px !important;
+    min-width: 190px !important;
+    max-width: 190px !important;
+    min-height: 62px !important;
+    height: 62px !important;
+    margin: 0 !important;
+    padding: 7px 9px !important;
+    grid-template-columns: 40px minmax(0, 1fr) 18px !important;
+    align-items: center !important;
+    gap: 7px !important;
+    border: 2px solid #d6e7ce !important;
+    border-radius: 12px !important;
+    background: #f0f7ec !important;
+    color: #263b26 !important;
+    box-shadow: 0 3px 0 #c5dac0 !important;
+    text-align: left !important;
+    overflow: hidden !important;
+    cursor: pointer !important;
+}
+
+#selectedGearButton:hover {
+    border-color: #9fc997 !important;
+    background: #f5faf2 !important;
+    filter: none !important;
+    transform: translateY(-2px);
+}
+
+#selectedGearButton:active {
+    transform: translateY(0);
+}
+
+#selectedGearButton .selected-gear-icon {
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 27px !important;
+    line-height: 1 !important;
+    flex-shrink: 0 !important;
+}
+
+#selectedGearButton .selected-gear-info {
+    min-width: 0 !important;
+    width: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    overflow: hidden !important;
+}
+
+#selectedGearButton .selected-gear-info b {
+    display: block !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 12px !important;
+    line-height: 1.15 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+#selectedGearButton .selected-gear-info small {
+    display: block !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    color: #667261 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+#selectedGearButton .selector-arrow {
+    width: 18px !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    color: #60735b !important;
+}
+
+/* Gear popup */
+#gearSelectorPopup {
+    position: absolute !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: calc(100% + 9px) !important;
+    top: auto !important;
+    box-sizing: border-box !important;
+    display: block;
+    width: 300px !important;
+    min-width: 300px !important;
+    max-width: min(300px, calc(100vw - 16px)) !important;
+    max-height: 300px !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    background: #ffffff !important;
+    color: #263b26 !important;
+    border: 2px solid #d6e7ce !important;
+    border-radius: 14px !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.20) !important;
+    z-index: 10001 !important;
+}
+
+#gearSelectorPopup.hidden {
+    display: none !important;
+}
+
+#gearSelectorPopup .gear-selector-item {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    display: grid !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
+    height: auto !important;
+    margin: 0 0 6px 0 !important;
+    padding: 7px 9px !important;
+    grid-template-columns: 38px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border: 2px solid transparent !important;
+    border-radius: 10px !important;
+    background: #f4f9f1 !important;
+    color: #263b26 !important;
+    text-align: left !important;
+    white-space: normal !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+}
+
+#gearSelectorPopup .gear-selector-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+#gearSelectorPopup .gear-selector-item:hover,
+#gearSelectorPopup .gear-selector-item.selected {
+    background: #d9f2cf !important;
+    border-color: #5aa651 !important;
+}
+
+#gearSelectorPopup .gear-selector-item .selector-icon {
+    width: 38px !important;
+    min-width: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 26px !important;
+    line-height: 1 !important;
+}
+
+#gearSelectorPopup .gear-selector-item .selector-info {
+    min-width: 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    overflow: hidden !important;
+}
+
+#gearSelectorPopup .gear-selector-item .selector-info b {
+    display: block !important;
+    min-width: 0 !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    font-weight: 800 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+#gearSelectorPopup .gear-selector-item .selector-info small {
+    display: block !important;
+    min-width: 0 !important;
+    font-size: 9px !important;
+    line-height: 1.35 !important;
+    color: #667261 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+#gearSelectorPopup .empty {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    padding: 18px 10px !important;
+    text-align: center !important;
+    font-size: 11px !important;
+    color: #667261 !important;
+}
+
+/* Keep the popup above the canvas and prevent parent clipping. */
+.bottom-ui,
+.bottom-ui .inventory-section,
+#gearSelector {
+    overflow: visible !important;
+}
+
+/* Flexible layout for the Gear selector only */
+@media (max-width: 850px) {
+    #gearSelector {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        flex: 1 1 190px !important;
+    }
+
+    #selectedGearButton {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    #gearSelectorPopup {
+        width: 300px !important;
+        max-width: min(300px, calc(100vw - 16px)) !important;
+    }
+}
+
+@media (max-width: 500px) {
+    #gearSelector {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    #selectedGearButton {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        height: 58px !important;
+        min-height: 58px !important;
+    }
+
+    #gearSelectorPopup {
+        left: 0 !important;
+        right: 0 !important;
+        bottom: calc(100% + 7px) !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        max-height: 270px !important;
+    }
+}
